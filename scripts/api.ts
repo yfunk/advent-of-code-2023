@@ -1,4 +1,4 @@
-import { isOk } from 'utils/script';
+import { isOk } from './utils';
 
 const headers = {
   Cookie: `session=${Bun.env.SESSION}`,

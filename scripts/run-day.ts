@@ -1,11 +1,5 @@
 import chalk from 'chalk';
-import {
-  formatDay,
-  formatDayName,
-  formatPerformance,
-  validateDay,
-  withPerformance,
-} from 'utils/script';
+import { formatDay, formatDayName, formatPerformance, validateDay, withPerformance } from './utils';
 
 const runDay = async (day: number, isDevMode?: boolean) => {
   if (!validateDay(day)) {
