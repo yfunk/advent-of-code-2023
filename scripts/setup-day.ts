@@ -12,7 +12,7 @@ const setupDay = async (day: number) => {
     return;
   }
 
-  const dir = new URL(`../${formatDayName(day)}/`, import.meta.url);
+  const dir = new URL(`../src/${formatDayName(day)}/`, import.meta.url);
 
   if (existsSync(dir)) {
     console.log(chalk.red(`Day ${day} already exists!`));
