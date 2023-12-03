@@ -16,7 +16,7 @@ const runDay = async (day: number, isDevMode?: boolean) => {
     return;
   }
 
-  const { part1, part2 } = await import(`../${formatDayName(day)}/index.ts`);
+  const { part1, part2 } = await import(`../src/${formatDayName(day)}/index.ts`);
 
   const [one, onePerformance] = withPerformance(() => part1?.());
   const [two, twoPerformance] = withPerformance(() => part2?.());
