@@ -1,61 +1,44 @@
 import { parseMatrix, readInput } from 'io';
-import { multiply } from 'utils';
-import {
-  Coordinates,
-  Matrix,
-  forEachElement,
-  forEachSurrounding,
-  someSurrounding,
-} from 'utils/matrix';
+import { multiply, sum } from 'utils';
+import { Coordinates, Matrix, forEachElement, forEachSurrounding } from 'utils/matrix';
 
 const input = await readInput('day-03');
 
 export const part1 = () => {
   const matrix = parseMatrix(input);
 
-  let sum = 0;
+  let result = 0;
 
-  for (let y = 0; y < matrix.length; y++) {
-    let numberBuffer = '';
-    let isPartNumber = false;
+  forEachElement(matrix, (char, coords) => {
+    if (isSymbol(char)) {
+      const partNumbers = collectPartNumbers(matrix, coords);
 
-    for (let x = 0; x < matrix[y].length; x++) {
-      const char = matrix[y][x];
+      result += sum(partNumbers);
 
-      if (isDigit(char)) {
-        numberBuffer += char;
-        isPartNumber = isPartNumber || someSurrounding(matrix, [x, y], (char) => isSymbol(char));
-      }
-
-      if (!isDigit(char) || x === matrix[y].length - 1) {
-        if (numberBuffer && isPartNumber) {
-          sum += Number(numberBuffer);
-        }
-        numberBuffer = '';
-        isPartNumber = false;
+      if (partNumbers.length === 2) {
       }
     }
-  }
+  });
 
-  return sum;
+  return result;
 };
 
 export const part2 = () => {
   const matrix = parseMatrix(input);
 
-  let sum = 0;
+  let result = 0;
 
   forEachElement(matrix, (char, coords) => {
     if (char === '*') {
       const partNumbers = collectPartNumbers(matrix, coords);
 
       if (partNumbers.length === 2) {
-        sum += multiply(partNumbers);
+        result += multiply(partNumbers);
       }
     }
   });
 
-  return sum;
+  return result;
 };
 
 //#region helpers
