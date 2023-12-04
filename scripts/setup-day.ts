@@ -1,8 +1,7 @@
 import { existsSync } from 'node:fs';
 import { mkdir } from 'node:fs/promises';
 import chalk from 'chalk';
-import { isBetween } from 'utils';
-import { formatDay, formatDayName, generateTemplate, validateDay } from './utils';
+import { formatDay, formatDayName, generateTemplate, isBetween, validateDay } from './utils';
 import { fetchInput } from './api';
 
 type File = {

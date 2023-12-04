@@ -1,4 +1,5 @@
-import { parseLines, readInput } from 'io';
+import { readInput } from 'io';
+import { parseLines } from 'parse';
 
 const input = await readInput('day-02');
 

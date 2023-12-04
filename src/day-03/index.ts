@@ -1,5 +1,6 @@
-import { parseMatrix, readInput } from 'io';
-import { multiply, sum } from 'utils';
+import { readInput } from 'io';
+import { parseMatrix } from 'parse';
+import { sum, multiply } from 'utils/math';
 import { Coordinates, Matrix, forEachElement, forEachSurrounding } from 'utils/matrix';
 
 const input = await readInput('day-03');

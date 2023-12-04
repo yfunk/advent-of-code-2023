@@ -1,4 +1,6 @@
-import { isBetween } from 'utils';
+export const isBetween = (x: number, [min, max]: [number, number]) => {
+  return x >= min && x <= max;
+};
 
 export const formatDay = (day: number | string) => {
   const parsedDay = Number(day);
