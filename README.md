@@ -47,7 +47,7 @@ bun -v
 curl -fsSL https://bun.sh/install | bash
 ```
 
-Install dependencies and submodules:
+Install dependencies and submodule:
 
 ```bash
 bun bootstrap

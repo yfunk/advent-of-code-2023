@@ -8,6 +8,7 @@
   "module": "index.ts",
   "scripts": {
     "bootstrap": "git submodule update --init --recursive && bun install",
+    "update-submodule": "git submodule update --remote --merge",
     "day": "bun run ./scripts/run-day.ts",
     "setup": "bun run ./scripts/setup-day.ts"
   },

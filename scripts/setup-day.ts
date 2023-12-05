@@ -6,6 +6,7 @@ import { fetchInput } from './api';
 
 type File = {
   name: string;
+  secret?: boolean;
   getContent?: (options: { year: number; day: number }) => Promise<string | undefined>;
 };
 
@@ -18,6 +19,7 @@ const files: Array<File> = [
   },
   {
     name: 'input.txt',
+    secret: true,
     getContent: async ({ year, day }) => {
       console.log('📄 Fetching input...');
 
@@ -30,10 +32,11 @@ const files: Array<File> = [
   },
   {
     name: 'example.txt',
+    secret: true,
   },
-  {
-    name: 'README.md',
-  },
+  // {
+  //   name: 'README.md',
+  // },
 ];
 
 const setupDay = async (day: number) => {
@@ -42,8 +45,6 @@ const setupDay = async (day: number) => {
     console.log(`🎅 To get started, try: ${chalk.cyan('bun setup 1')}`);
     return;
   }
-
-  const dir = new URL(`../src/${formatDayName(day)}/`, import.meta.url);
 
   const currentYear = new Date().getFullYear();
   const year = Number.parseInt(Bun.env.YEAR ?? currentYear.toString());
@@ -55,13 +56,18 @@ const setupDay = async (day: number) => {
     return;
   }
 
+  const srcDir = new URL(`../src/${formatDayName(day)}/`, import.meta.url);
+  // input files should not be shared publicly, but them in separate directory (git submodule)
+  const secretDir = new URL(`../inputs/${formatDayName(day)}/`, import.meta.url);
+
   console.log(`📂 Setting up day ${formatDay(day)}...`);
 
   try {
-    if (!existsSync(dir)) await mkdir(dir);
+    if (!existsSync(srcDir)) await mkdir(srcDir);
+    if (!existsSync(secretDir)) await mkdir(secretDir);
 
     for (const file of files) {
-      const fileUrl = new URL(file.name, dir.href);
+      const fileUrl = new URL(file.name, file.secret ? secretDir : srcDir);
 
       if (existsSync(fileUrl)) {
         console.log(`⚠️  ${file.name} already exists.`);
