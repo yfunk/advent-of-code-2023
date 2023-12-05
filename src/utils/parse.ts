@@ -29,7 +29,7 @@ export const parseMatrix = <T = string>(input: string, transform?: Transform<T>)
   });
 };
 
-export const parseString = <T = string>(input: string, transform?: Transform<T>) => {
+export const splitString = <T = string>(input: string, transform?: Transform<T>) => {
   const values = input.trim().split(/\s+/);
   return transform ? values.map(transform) : (values as T[]);
 };

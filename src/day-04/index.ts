@@ -1,5 +1,5 @@
 import { readInput } from 'io';
-import { parseLines, parseString } from 'parse';
+import { parseLines, splitString } from 'parse';
 import { sum } from 'utils/math';
 import { intersection } from 'utils/set';
 
@@ -55,10 +55,10 @@ export const part2 = () => {
 const parseCard = (line: string) => {
   const [_id, _data] = line.split(':');
 
-  const id = Number(parseString(_id).at(-1));
+  const id = Number(splitString(_id).at(-1));
   const [winning, numbers] = _data
     .split('|')
-    .map((str) => new Set(parseString(str, (v) => Number(v))));
+    .map((str) => new Set(splitString(str, (v) => Number(v))));
 
   return { id, winning, numbers } as Card;
 };
