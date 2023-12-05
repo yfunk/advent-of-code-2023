@@ -32,6 +32,6 @@ export const readFile = async (filepath: string) => {
 };
 
 export const readInput = async (dir: Day, fileName: string = 'input') => {
-  const filepath = `./src/${dir}/${fileName}.txt`;
+  const filepath = `./inputs/${dir}/${fileName}.txt`;
   return readFile(filepath);
 };
