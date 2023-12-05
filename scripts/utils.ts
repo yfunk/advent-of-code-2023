@@ -16,15 +16,16 @@ export const validateDay = (day: number | string) => {
   return day && !Number.isNaN(parsedDay) && isBetween(parsedDay, [1, 25]);
 };
 
-export const generateTemplate = (day: number) => `import { parseLines, readInput } from 'io'
+export const generateTemplate = (day: number) => `import { readInput } from 'io';
+import { parseLines } from 'parse';
 
-const input = await readInput('${formatDayName(day)}')
+const input = await readInput('${formatDayName(day)}');
 
 export const part1 = () => {
-  const lines = parseLines(input)
+  const lines = parseLines(input);
   // your code goes here
-  return lines.length
-}
+  return lines.length;
+};
 `;
 
 export const withPerformance = <T>(handler: () => T) => {
