@@ -1,8 +1,7 @@
 import { readInput } from 'io';
 import { parseGroups, splitString } from 'parse';
 import { chunk } from 'utils/array';
-import { isBetween, max, min, range, unique } from 'utils/math';
-import { asc } from 'utils/sort';
+import { isBetween, max, min } from 'utils/math';
 
 type Map = { name: string; mappings: Mapping[] };
 type Mapping = { srcStart: number; destStart: number; length: number };
@@ -17,22 +16,23 @@ export const part1 = () => {
   const locations: number[] = [];
 
   for (const seed of almanac.seeds) {
-    let intermediate = seed;
+    let mapped = seed;
 
     for (const map of almanac.maps) {
-      let mapping = intermediate;
+      let mapping = mapped;
 
       for (const { srcStart, destStart, length } of map.mappings) {
-        if (isBetween(intermediate, [srcStart, srcStart + length - 1])) {
-          mapping = intermediate - srcStart + destStart;
+        if (isBetween(mapped, [srcStart, srcStart + length - 1])) {
+          mapping = mapped - srcStart + destStart;
           break;
         }
       }
 
-      intermediate = mapping;
+      mapped = mapping;
     }
 
-    locations.push(intermediate);
+    // location is found after all maps have been processed
+    locations.push(mapped);
   }
 
   const closest = min(locations);
@@ -51,17 +51,19 @@ export const part2 = () => {
   // the closest location has to be at the start of one of the ranges
   // map all seed ranges to location ranges and find the minimum
   for (const map of almanac.maps) {
-    const mappedRanges: Range[] = [];
+    const mapped: Range[] = [];
 
-    for (const range of ranges) {
-      let mapped = range;
+    while (ranges.length > 0) {
+      const range = ranges.pop()!;
+
+      let mapping = range;
 
       for (const { srcStart, destStart, length } of map.mappings) {
         const overlapStart = max([range.start, srcStart]);
         const overlapEnd = min([range.end, srcStart + length]);
 
         if (overlapStart < overlapEnd) {
-          mapped = {
+          mapping = {
             start: overlapStart - srcStart + destStart,
             end: overlapEnd - srcStart + destStart,
           };
@@ -73,10 +75,10 @@ export const part2 = () => {
         }
       }
 
-      mappedRanges.push(mapped);
+      mapped.push(mapping);
     }
 
-    ranges = mappedRanges;
+    ranges = mapped;
   }
 
   const closest = min(ranges.map(({ start }) => start));

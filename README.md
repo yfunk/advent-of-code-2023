@@ -14,7 +14,7 @@ Based on [`matijaoe/advent-of-code`](https://github.com/matijaoe/advent-of-code)
 | 02  | ✅     | ✅     | [Link](./src/day-02/index.ts) | [Day 02](https://adventofcode.com/2023/day/2)  |
 | 03  | ✅     | ✅     | [Link](./src/day-03/index.ts) | [Day 03](https://adventofcode.com/2023/day/3)  |
 | 04  | ✅     | ✅     | [Link](./src/day-04/index.ts) | [Day 04](https://adventofcode.com/2023/day/4)  |
-| 05  | ✅     | 🚧     | [Link](./src/day-05/index.ts) | [Day 05](https://adventofcode.com/2023/day/5)  |
+| 05  | ✅     | ✅     | [Link](./src/day-05/index.ts) | [Day 05](https://adventofcode.com/2023/day/5)  |
 | 06  |        |        |                               | [Day 06](https://adventofcode.com/2023/day/6)  |
 | 07  |        |        |                               | [Day 07](https://adventofcode.com/2023/day/7)  |
 | 08  |        |        |                               | [Day 08](https://adventofcode.com/2023/day/8)  |
