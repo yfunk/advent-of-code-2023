@@ -33,3 +33,8 @@ export const splitString = <T = string>(input: string, transform?: Transform<T>)
   const values = input.trim().split(/\s+/);
   return transform ? values.map(transform) : (values as T[]);
 };
+
+export const removeWhiteSpace = <T = string>(input: string, transform?: Transform<T>) => {
+  const value = input.trim().replace(/\s+/g, '');
+  return transform ? transform(value) : (value as T);
+};
