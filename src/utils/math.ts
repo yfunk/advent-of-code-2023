@@ -26,3 +26,11 @@ export const range = (length: number, start?: number) => {
   const values = [...Array(length).keys()];
   return start ? values.map((v) => start + v) : values;
 };
+
+export const gcd = (a: number, b: number): number => {
+  return b ? gcd(b, a % b) : a;
+};
+
+export const lcm = (numbers: number[]) => {
+  return numbers.reduce((res, num) => (res * num) / gcd(res, num), 1);
+};
