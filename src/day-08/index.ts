@@ -22,15 +22,17 @@ export const part1 = () => {
 };
 
 export const part2 = () => {
-  const map = parseNetwork(input);
+  const network = parseNetwork(input);
 
   // find all start nodes
-  const startNodes = Array.from(map.nodes.keys()).filter((node) =>
+  const startNodes = Array.from(network.nodes.keys()).filter((node) =>
     isStartNode(node, { part2: true })
   );
 
   // calculate the steps to reach an end node from each start node
-  const requiredSteps = startNodes.map((startNode) => stepsToEnd(map, startNode, { part2: true }));
+  const requiredSteps = startNodes.map((startNode) =>
+    stepsToEnd(network, startNode, { part2: true })
+  );
 
   // find the least common multiple of all required steps (this is the total number of steps
   // after which we are only on nodes that end with 'Z')
