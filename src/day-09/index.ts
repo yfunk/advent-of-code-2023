@@ -2,14 +2,14 @@ import { readInput } from 'io';
 import { parseLines, splitString } from 'parse';
 import { sum } from 'utils/math';
 
-const input = await readInput('day-09', 'input');
+const input = await readInput('day-09');
 
 export const part1 = () => {
   const sequences = parseSequences(input);
   const extrapolations: number[] = [];
 
   for (const sequence of sequences) {
-    extrapolations.push(extrapolateValue(sequence, 'next'));
+    extrapolations.push(extrapolate(sequence, 'next'));
   }
 
   return sum(extrapolations);
@@ -20,7 +20,7 @@ export const part2 = () => {
   const extrapolations: number[] = [];
 
   for (const sequence of sequences) {
-    extrapolations.push(extrapolateValue(sequence, 'previous'));
+    extrapolations.push(extrapolate(sequence, 'previous'));
   }
 
   return sum(extrapolations);
@@ -28,47 +28,25 @@ export const part2 = () => {
 
 //#region common
 /**
- * Extrapolates the next or previous number in the sequence
+ * Recursively extrapolates the next / previous value in a sequence of numbers.
  */
-const extrapolateValue = (sequence: number[], direction: 'next' | 'previous') => {
-  // recursively break down sequence into new sequences of the difference between each step
-  const breakdown = breakdownSequence(sequence);
+const extrapolate = (sequence: number[], direction: 'next' | 'previous'): number => {
+  if (sequence.every((v) => v === 0)) return 0;
 
-  let extrapolated = 0;
-
-  // use breakdown to extrapolate the next or previous value from the bottom up
-  for (let i = breakdown.length - 2; i >= 0; i--) {
-    if (direction === 'next') {
-      const last = breakdown[i].at(-1)!;
-      extrapolated = last + extrapolated;
-    } else {
-      const first = breakdown[i][0];
-      extrapolated = first - extrapolated;
-    }
+  const differences: number[] = [];
+  for (let i = 1; i < sequence.length; i++) {
+    differences.push(sequence[i] - sequence[i - 1]);
   }
 
-  return extrapolated;
-};
+  const extrapolated = extrapolate(differences, direction);
 
-const breakdownSequence = (sequence: number[]) => {
-  const breakdown = [sequence];
-
-  while (!breakdown.at(-1)!.every((v) => v === 0)) {
-    const current = breakdown.at(-1)!;
-    const next: number[] = [];
-
-    for (let i = 1; i < current.length; i++) {
-      next.push(current[i] - current[i - 1]);
-    }
-
-    breakdown.push(next);
+  if (direction === 'next') {
+    return sequence.at(-1)! + extrapolated;
+  } else {
+    return sequence[0] - extrapolated;
   }
-
-  return breakdown;
 };
-//#endregion
 
-//#region helpers
 const parseSequences = (input: string) => {
   return parseLines(input, (line) => splitString(line, (v) => +v));
 };
