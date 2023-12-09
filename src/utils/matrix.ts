@@ -1,19 +1,23 @@
 export type Matrix<T> = T[][];
 export type Coordinates = [x: number, y: number];
 
-export const getSurrounding = (coords: Coordinates) => {
+export const getSurrounding = (coords: Coordinates, diagonal = true) => {
   const [x, y] = coords;
+
   return [
-    [x - 1, y - 1],
-    [x, y - 1],
-    [x + 1, y - 1],
+    [x, y - 1], // top
+    [x - 1, y], // left
+    [x + 1, y], // right
+    [x, y + 1], // bottom
 
-    [x - 1, y],
-    [x + 1, y],
-
-    [x - 1, y + 1],
-    [x, y + 1],
-    [x + 1, y + 1],
+    ...(diagonal
+      ? [
+          [x - 1, y - 1], // top left
+          [x + 1, y - 1], // top right
+          [x - 1, y + 1], // bottom left
+          [x + 1, y + 1], // bottom right
+        ]
+      : []),
   ] as Coordinates[];
 };
 
@@ -36,9 +40,10 @@ export const forEachElement = <T>(
 export const forEachSurrounding = <T>(
   matrix: Matrix<T>,
   coords: Coordinates,
-  fn: (value: T, coords: Coordinates) => void
+  fn: (value: T, coords: Coordinates) => void,
+  options?: { diagonal?: boolean }
 ) => {
-  const surrounding = getSurrounding(coords);
+  const surrounding = getSurrounding(coords, options?.diagonal);
 
   surrounding.forEach((coords) => {
     const [x, y] = coords;
@@ -51,9 +56,10 @@ export const forEachSurrounding = <T>(
 export const everySurrounding = <T>(
   matrix: Matrix<T>,
   coords: Coordinates,
-  test: (value: T, coords: Coordinates) => boolean
+  test: (value: T, coords: Coordinates) => boolean,
+  options?: { diagonal?: boolean }
 ) => {
-  const surrounding = getSurrounding(coords);
+  const surrounding = getSurrounding(coords, options?.diagonal);
 
   return surrounding.every((coords) => {
     const [x, y] = coords;
@@ -66,9 +72,10 @@ export const everySurrounding = <T>(
 export const someSurrounding = <T>(
   matrix: Matrix<T>,
   coords: Coordinates,
-  test: (value: T, coords: Coordinates) => boolean
+  test: (value: T, coords: Coordinates) => boolean,
+  options?: { diagonal?: boolean }
 ) => {
-  const surrounding = getSurrounding(coords);
+  const surrounding = getSurrounding(coords, options?.diagonal);
 
   return surrounding.some((coords) => {
     const [x, y] = coords;
