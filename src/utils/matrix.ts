@@ -1,7 +1,7 @@
 export type Matrix<T> = T[][];
 export type Coordinates = [x: number, y: number];
 
-export const getSurrounding = (coords: Coordinates, diagonal = true) => {
+export const getSurrounding = (coords: Coordinates, options?: { diagonal?: boolean }) => {
   const [x, y] = coords;
 
   return [
@@ -10,7 +10,7 @@ export const getSurrounding = (coords: Coordinates, diagonal = true) => {
     [x + 1, y], // right
     [x, y + 1], // bottom
 
-    ...(diagonal
+    ...(options?.diagonal
       ? [
           [x - 1, y - 1], // top left
           [x + 1, y - 1], // top right
@@ -19,6 +19,11 @@ export const getSurrounding = (coords: Coordinates, diagonal = true) => {
         ]
       : []),
   ] as Coordinates[];
+};
+
+export const matrixAt = <T>(matrix: Matrix<T>, coords: Coordinates) => {
+  const [x, y] = coords;
+  return matrix[y][x];
 };
 
 export const isInBounds = (matrix: Matrix<unknown>, coords: Coordinates) => {
@@ -43,7 +48,7 @@ export const forEachSurrounding = <T>(
   fn: (value: T, coords: Coordinates) => void,
   options?: { diagonal?: boolean }
 ) => {
-  const surrounding = getSurrounding(coords, options?.diagonal);
+  const surrounding = getSurrounding(coords, options);
 
   surrounding.forEach((coords) => {
     const [x, y] = coords;
@@ -59,7 +64,7 @@ export const everySurrounding = <T>(
   test: (value: T, coords: Coordinates) => boolean,
   options?: { diagonal?: boolean }
 ) => {
-  const surrounding = getSurrounding(coords, options?.diagonal);
+  const surrounding = getSurrounding(coords, options);
 
   return surrounding.every((coords) => {
     const [x, y] = coords;
@@ -75,7 +80,7 @@ export const someSurrounding = <T>(
   test: (value: T, coords: Coordinates) => boolean,
   options?: { diagonal?: boolean }
 ) => {
-  const surrounding = getSurrounding(coords, options?.diagonal);
+  const surrounding = getSurrounding(coords, options);
 
   return surrounding.some((coords) => {
     const [x, y] = coords;
